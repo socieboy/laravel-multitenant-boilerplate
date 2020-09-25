@@ -1,5 +1,7 @@
 # Multitenancy Boilerplace
 
+#### Jetstream + Inertia
+
 Create your first tenant
 ```
 php artisan migrate
