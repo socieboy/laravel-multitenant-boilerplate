@@ -91,7 +91,7 @@ class TenancyServiceProvider extends ServiceProvider
 
     public function register()
     {
-        //
+        $this->registerFortifyMiddlewareTenants();
     }
 
     public function boot()
@@ -138,6 +138,21 @@ class TenancyServiceProvider extends ServiceProvider
 
         foreach (array_reverse($tenancyMiddleware) as $middleware) {
             $this->app[\Illuminate\Contracts\Http\Kernel::class]->prependToMiddlewarePriority($middleware);
+        }
+    }
+
+    protected function registerFortifyMiddlewareTenants()
+    {
+        $domain = app('request')->getHost();
+
+        if (!in_array($domain, config('tenancy.central_domains'))) {
+            config([
+                'fortify.middleware' => [
+                    'web',
+                    Middleware\InitializeTenancyByDomain::class,
+                ],
+                'fortify.domain' => $domain
+            ]);
         }
     }
 }

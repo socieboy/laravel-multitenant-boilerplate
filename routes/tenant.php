@@ -22,7 +22,7 @@ Route::middleware([
     'web',
     InitializeTenancyByDomain::class,
     PreventAccessFromCentralDomains::class,
-])->name('tenant.')->group(function () {
+])->group(function () {
 
     Route::middleware('guest')->get('/', function () {
         return view('welcome');
